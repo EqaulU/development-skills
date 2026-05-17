@@ -78,7 +78,7 @@ cp -r commit-msg ~/.claude/skills/
 
 調査・分析の重い専門タスク(コードレビュー、セキュリティ監査、パフォーマンス診断、依存パッケージ監査、エッジケース洗い出し、SQL最適化、命名規則レビュー、環境変数チェック、ポストモーテム作成)は **sub-agent** として別リポジトリにまとめている。
 
-→ [development-agents](https://github.com/itourun2801/development-agents) (※リポジトリ作成予定)
+→ [development-sub-agent](https://github.com/itourun2801/development-sub-agent)
 
 ## skill と sub-agent の使い分け
 
