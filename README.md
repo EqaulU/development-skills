@@ -93,7 +93,7 @@ cp -r commit-msg ~/.claude/skills/
 
 調査・分析の重いタスク(code-review / security-check / perf-review / naming-review / edge-case-finder / sql-optimize / env-check / incident-postmortem / dependency-audit)は、**sub-agent 形式**でも入手可能。並列実行や別コンテキスト隔離が必要なときに使う。
 
-→ [development-sub-agent](https://github.com/itourun2801/development-sub-agent) (`agent` ブランチ)
+→ [development-sub-agent](https://github.com/itourun2801/development-sub-agent)
 
 ただし sub-agent は起動コストが大きくトークン消費が重いので、通常はこのリポジトリ(skill 形式)の使用を推奨する。
 
