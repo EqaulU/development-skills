@@ -5,7 +5,7 @@ description: DBスキーマ変更・データ移行の計画を作成する(Expa
 
 # Migration Plan
 
-DBスキーマ変更とデータ移行の計画を立てる。
+DB スキーマ変更とデータ移行の計画を立てる。
 
 ## 入力情報
 
@@ -21,113 +21,31 @@ DBスキーマ変更とデータ移行の計画を立てる。
 
 | 種別 | リスク | 例 |
 | :--- | :--- | :--- |
-| **後方互換(Additive)** | 低 | カラム追加(NULLABLE)、INDEX追加、テーブル追加 |
-| **両方向互換(Compatible)** | 中 | カラム改名(エイリアス併用)、NOT NULL化(既存データ充足済み) |
-| **破壊的(Breaking)** | 高 | カラム削除、型変更、NOT NULL化(NULL残存)、テーブル削除 |
+| **後方互換(Additive)** | 低 | カラム追加(NULLABLE)、INDEX 追加、テーブル追加 |
+| **両方向互換(Compatible)** | 中 | カラム改名(エイリアス併用)、NOT NULL 化(既存データ充足済み) |
+| **破壊的(Breaking)** | 高 | カラム削除、型変更、NOT NULL 化(NULL 残存)、テーブル削除 |
 
 破壊的変更は **Expand-Migrate-Contract** パターンで段階分割する。
 
-## Expand-Migrate-Contract パターン
+## Expand-Migrate-Contract パターン(概要)
 
-**例: `users.fullname` を `first_name` + `last_name` に分割したい**
+4 フェーズで進める:
 
-### Phase 1: Expand(追加のみ、後方互換)
-```sql
-ALTER TABLE users ADD COLUMN first_name VARCHAR(255);
-ALTER TABLE users ADD COLUMN last_name VARCHAR(255);
-```
-- アプリ側: 書き込み時に新旧両方に書く(Dual Write)
-- 旧コードは引き続き `fullname` を読める
+1. **Expand** — 新カラム/テーブル追加(NULLABLE で後方互換)+ アプリは Dual Write 化
+2. **Backfill** — 既存データをバッチで埋める
+3. **Migrate** — 読み取り側を新カラムに切替(feature flag でカナリア推奨)
+4. **Contract** — 観測期間後に旧カラム削除
 
-### Phase 2: Backfill(既存データ移行)
-```sql
--- 既存行を埋める(バッチで段階的に)
-UPDATE users
-SET first_name = SPLIT_PART(fullname, ' ', 1),
-    last_name  = SPLIT_PART(fullname, ' ', 2)
-WHERE first_name IS NULL
-LIMIT 10000;  -- ループでバッチ実行
-```
-- ロック時間最小化のため小ロットで
-- 進捗ログを残す
+具体的な SQL 例と出力テンプレートは [references/expand-migrate-contract.md](references/expand-migrate-contract.md) を参照。
 
-### Phase 3: Migrate(読み取り側を新カラムに切替)
-- アプリのSELECTを新カラムに切替えてデプロイ
-- 引き続き Dual Write は維持(ロールバック余地のため)
+## オンライン DDL / ロック影響
 
-### Phase 4: Contract(旧カラム削除)
-- Dual Write を停止(新カラムのみに書く)
-- 十分な観測期間(数日〜数週)を置く
-- 最後に旧カラム削除
-```sql
-ALTER TABLE users DROP COLUMN fullname;
-```
+DBMS 固有のオンラインDDL対応 (PostgreSQL の `CREATE INDEX CONCURRENTLY`、MySQL の `ALGORITHM=INPLACE` 等) は [references/dbms-online-ddl.md](references/dbms-online-ddl.md) を参照。
 
-## オンラインDDL / ロック影響
-
-### PostgreSQL
-- `CREATE INDEX CONCURRENTLY` — 読み書きをブロックしない
-- `ALTER TABLE ADD COLUMN ... DEFAULT ...` — PG11以降は高速(メタデータのみ)
-- `ALTER TABLE ALTER COLUMN ... TYPE ...` — テーブル全体のリライトが発生する場合あり、要注意
-- `pg_repack` で長時間ロックを回避
-
-### MySQL
-- `ALGORITHM=INPLACE, LOCK=NONE` を明示
-- `ALTER TABLE` のオンライン可否は変更内容次第。マニュアルで要確認
-- 大規模変更は `pt-online-schema-change` / `gh-ost` を使用
-
-### 共通の注意
-- 5GB以上のテーブルへのDDLは特に慎重に
-- INDEX作成はピーク時間外を選ぶ
-- 長時間トランザクションの後ろにDDLが詰まると致命的
-
-## 出力フォーマット
-
-```markdown
-## マイグレーション計画: <変更内容>
-
-### 概要
-何を、なぜ変更するか(1-2文)
-
-### 変更の影響評価
-- 種別: Breaking(Expand-Migrate-Contract 必要)
-- 対象テーブル: `users`(行数: 約500万)
-- アクセス頻度: 1000 req/s(読み)、50 req/s(書き)
-- ダウンタイム許容: 0秒
-
-### Phase 1: Expand
-- マイグレーション: ...
-- アプリ変更: Dual Write 実装
-- デプロイ: ...
-- 検証: ...
-- ロールバック: マイグレーションのdownで戻せる(NULLABLEなので無害)
-
-### Phase 2: Backfill
-- スクリプト: `scripts/backfill_user_names.sql`
-- 実行方法: 10000行ずつバッチ、ピーク外に実行、所要時間 ~2h見込み
-- 監視: スループット、レプリカ遅延、ロック待ち
-- 中断時の再開可能性: WHERE条件で未処理行のみ対象
-
-### Phase 3: Migrate
-- アプリのSELECT切替(feature flagでカナリア展開推奨)
-- 観測: 新カラムベースの読み取りでエラーが出ないか
-- ロールバック: feature flag OFFで即時切り戻し
-
-### Phase 4: Contract
-- 前提: 7日間問題なし、新コードのみ稼働
-- マイグレーション: DROP COLUMN
-- 注意: 一度実行するとロールバック不可。十分な事前確認
-
-### 各Phase の Go/No-Go 判定基準
-- エラー率変化なし
-- レイテンシ変化なし
-- レプリカ遅延が閾値以下
-- 関係者の合意
-
-### リハーサル計画
-- ステージング環境で本番相当データ量で実施
-- バックアップからのリストア訓練
-```
+共通の注意点:
+- 5GB 以上のテーブルへの DDL は特に慎重に
+- INDEX 作成はピーク時間外
+- 長時間トランザクションの後ろに DDL が詰まると致命的
 
 ## 原則
 
@@ -140,6 +58,6 @@ ALTER TABLE users DROP COLUMN fullname;
 
 ## 関連スキル
 
-- `sql-optimize` — 新スキーマ・新クエリのINDEX設計とパフォーマンス検証
+- `sql-optimize` — 新スキーマ・新クエリの INDEX 設計とパフォーマンス検証
 - `rollback-guide` — Phase 別の切り戻し手順を整理
 - `deploy-checklist` — マイグレーションを含むリリースのチェックリスト
