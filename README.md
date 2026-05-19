@@ -1,8 +1,6 @@
-# System Development Skills (14個)
+# System Development Skills (23個)
 
 システム開発を支援する skill テンプレート集。
-書く系・整形系の手順を Claude Code の skill としてまとめている。
-
 それぞれの skill は `<skill-name>/SKILL.md` に格納されている。
 
 ## インストール
@@ -40,11 +38,20 @@ cp -r commit-msg ~/.claude/skills/
 
 ## 全 skill 一覧
 
+### 🔍 コードレビュー系
+| skill | 概要 |
+| :--- | :--- |
+| `code-review` | 可読性・セキュリティ・パフォーマンス等の統一観点でレビュー |
+| `security-check` | OWASP Top 10 / CWE 観点で脆弱性を洗い出し |
+| `perf-review` | N+1、不要ループ、DB クエリ効率、メモリリーク等を指摘 |
+| `naming-review` | 命名規則(camelCase/snake_case 等)の統一チェック |
+
 ### 🧪 テスト系
 | skill | 概要 |
 | :--- | :--- |
 | `test-gen` | 関数・クラスのユニットテスト自動生成 |
 | `e2e-scenario` | ユーザーストーリーから E2E シナリオ作成(Gherkin) |
+| `edge-case-finder` | 境界値・異常系・例外パターンを系統的に列挙 |
 
 ### 📝 ドキュメント系
 | skill | 概要 |
@@ -59,12 +66,14 @@ cp -r commit-msg ~/.claude/skills/
 | :--- | :--- |
 | `refactor` | 重複排除・関数分割・責務整理(挙動保持) |
 | `type-strengthen` | TypeScript 型の強化(any 排除・型ガード等) |
+| `sql-optimize` | スロークエリ改善・INDEX 設計レビュー |
 
 ### 🚀 デプロイ・運用系
 | skill | 概要 |
 | :--- | :--- |
 | `deploy-checklist` | 本番デプロイ前のチェックリスト |
 | `rollback-guide` | 障害時のロールバック手順生成 |
+| `env-check` | 環境変数の漏れ・差分・シークレット混入検出 |
 | `migration-plan` | DB スキーマ変更計画(Expand-Migrate-Contract) |
 
 ### 💬 コミュニケーション・管理系
@@ -73,12 +82,20 @@ cp -r commit-msg ~/.claude/skills/
 | `commit-msg` | Conventional Commits 規約のコミットメッセージ生成 |
 | `pr-description` | PR テンプレートに沿った説明文を自動作成 |
 | `task-breakdown` | 大きなタスクをサブタスクに分解(INVEST 原則) |
+| `incident-postmortem` | 障害事後分析(Blameless Postmortem) |
+
+### ➕ 追加提案(運用上有用)
+| skill | 概要 |
+| :--- | :--- |
+| `dependency-audit` | 依存パッケージの脆弱性・ライセンス・メンテ状況スキャン |
 
 ## 関連リポジトリ
 
-調査・分析の重い専門タスク(コードレビュー、セキュリティ監査、パフォーマンス診断、依存パッケージ監査、エッジケース洗い出し、SQL最適化、命名規則レビュー、環境変数チェック、ポストモーテム作成)は **sub-agent** として別リポジトリにまとめている。
+調査・分析の重いタスク(code-review / security-check / perf-review / naming-review / edge-case-finder / sql-optimize / env-check / incident-postmortem / dependency-audit)は、**sub-agent 形式**でも入手可能。並列実行や別コンテキスト隔離が必要なときに使う。
 
-→ [development-sub-agent](https://github.com/itourun2801/development-sub-agent)
+→ [development-sub-agent](https://github.com/itourun2801/development-sub-agent) (`agent` ブランチ)
+
+ただし sub-agent は起動コストが大きくトークン消費が重いので、通常はこのリポジトリ(skill 形式)の使用を推奨する。
 
 ## skill と sub-agent の使い分け
 
@@ -87,7 +104,8 @@ cp -r commit-msg ~/.claude/skills/
 | 配置 | `.claude/skills/<name>/SKILL.md` | `.claude/agents/<name>.md` |
 | 実行コンテキスト | 同じ会話に手順書として注入 | 別コンテキストで独立実行 |
 | 並列実行 | 不可 | 可 |
-| 向くもの | **書く系・整形系**(手順を統一したい) | **読む系・調査系**(重い読み込みを隔離したい) |
+| トークン消費 | **軽い** | **重い**(起動・再読み込みコスト) |
+| 向くシーン | 日常的な利用全般 | 大規模並列調査・コンテキスト隔離が必要なとき |
 
 ## カスタマイズ指針
 
@@ -103,9 +121,10 @@ cp -r commit-msg ~/.claude/skills/
 
 - `task-breakdown` → 分解したサブタスクを `pr-description` で PR 化
 - `refactor` → 既存テスト不足なら `test-gen` で characterization test を先に
+- `code-review` の指摘 → `security-check` / `perf-review` / `naming-review` でドリルダウン
 - `commit-msg` → リリース時に `changelog-writer` で集約
-- `deploy-checklist` → 障害時は `rollback-guide` → 事後 `incident-postmortem` agent
-- `migration-plan` → DB 変更前のレビューは `sql-optimize` agent と組み合わせる
+- `deploy-checklist` → 障害時は `rollback-guide` → 事後 `incident-postmortem`
+- `migration-plan` → DB 変更前のレビューは `sql-optimize` と組み合わせる
 
 ## 次のステップ
 
