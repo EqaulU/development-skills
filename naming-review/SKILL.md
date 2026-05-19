@@ -1,6 +1,6 @@
 ---
 name: naming-review
-description: 命名規則の統一性(camelCase / snake_case / PascalCase / kebab-case)、命名の明瞭さ・意図の表現、略語の一貫性、boolean接頭辞、定数のSCREAMING_SNAKE等をレビューする。ユーザーが「命名見て」「名前これでいい?」「変数名イケてる?」「リネームすべき?」「naming convention 統一して」と言ったとき、`/naming-review` と打ったときには必ずこのskillを使う。命名は後から直すコストが高いので、新規コードや設計レビュー時には積極的に発動すること。
+description: 命名の形式統一(camelCase/snake_case等)・明瞭さ・略語の一貫性をレビューする。命名・リネーム・naming conventionの相談で使う。
 ---
 
 # Naming Review

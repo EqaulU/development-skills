@@ -1,6 +1,6 @@
 ---
 name: task-breakdown
-description: 大きなタスク・機能要件をサブタスクに分解してIssue化する。INVEST原則(Independent / Negotiable / Valuable / Estimable / Small / Testable)に従い、各サブタスクに受け入れ基準・見積もりを付与。ユーザーが「タスク分解して」「Issue分けて」「サブタスク作って」「これを分解」「WBS作って」と言ったとき、大きな要件や機能を共有してきたとき、`/task-breakdown` と打ったときには必ずこのskillを使う。
+description: 大きなタスクをINVEST原則でサブタスクに分解し、受け入れ基準・見積もりを付与する。Issue分解・WBS作成の依頼で使う。
 ---
 
 # Task Breakdown

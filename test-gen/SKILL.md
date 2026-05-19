@@ -1,6 +1,6 @@
 ---
 name: test-gen
-description: 関数・クラス・モジュールに対してユニットテストを自動生成する。テスティングフレームワーク(Jest/Vitest/pytest/JUnit/RSpec等)に応じた構文、AAAパターン(Arrange-Act-Assert)、正常系/異常系/境界値を網羅。ユーザーが「テスト書いて」「ユニットテスト生成」「テストカバレッジ上げて」「test 追加」と言ったとき、テスト未整備の関数やクラスを共有してきたとき、`/test-gen` と打ったときには必ずこのskillを使う。テストは後回しにされがちなので、コード作成・修正の文脈では積極的に発動して提案すること。
+description: 関数・クラスのユニットテストを生成する(Jest/Vitest/pytest/JUnit/RSpec等、AAAパターン、正常/異常/境界値網羅)。テスト追加・カバレッジ向上の依頼で使う。
 ---
 
 # Test Generation

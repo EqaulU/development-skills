@@ -1,6 +1,6 @@
 ---
 name: e2e-scenario
-description: ユーザーストーリー・機能要件からE2Eテストシナリオを作成する。Given-When-Then形式、Happy Path / Alternative Path / Error Pathの網羅、UIフロー・APIフロー両対応。ユーザーが「E2Eテスト作って」「シナリオ書いて」「受け入れテスト」「BDDで書いて」「ユーザーストーリーからテスト」と言ったとき、新機能の仕様書やストーリーを共有してきたとき、`/e2e-scenario` と打ったときには必ずこのskillを使う。
+description: ユーザーストーリーからE2Eシナリオ(Gherkin/Given-When-Then)を作成する。Happy/Alternative/Error Pathを網羅。受け入れテスト・BDD作成の依頼で使う。
 ---
 
 # E2E Scenario Generation

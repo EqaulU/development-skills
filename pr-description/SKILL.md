@@ -1,6 +1,6 @@
 ---
 name: pr-description
-description: PRテンプレートに沿った説明文を自動作成する。概要・背景・変更内容・スクリーンショット枠・テスト観点・レビュー観点・チェックリスト・Issueリンクを含める。ユーザーが「PR説明書いて」「プルリク文章」「PR description」「マージリクエストの説明」と言ったとき、コミット履歴や差分を共有してきたとき、`/pr-description` と打ったときには必ずこのskillを使う。
+description: 変更内容からPR/MR説明文(概要・背景・変更内容・テスト・レビュー観点・チェックリスト)を生成する。PR/MR説明作成の依頼で使う。
 ---
 
 # Pull Request Description

@@ -1,6 +1,6 @@
 ---
 name: sql-optimize
-description: スロークエリの改善提案、INDEX設計レビュー、JOIN最適化、サブクエリのJOIN化、N+1検出、実行計画(EXPLAIN)解読を行う。MySQL/PostgreSQL/SQL Server等の差分も考慮。ユーザーが「クエリ遅い」「SQL最適化」「INDEX貼るべき?」「EXPLAINの結果見て」「ボトルネックのクエリ」と言ったとき、SQL文や実行計画を共有してきたとき、`/sql-optimize` と打ったときには必ずこのskillを使う。
+description: スロークエリ改善・INDEX設計・JOIN最適化・EXPLAIN解読を行う(MySQL/PostgreSQL/SQL Server等の差分考慮)。SQL最適化・INDEX相談・実行計画レビューの依頼で使う。
 ---
 
 # SQL Optimize

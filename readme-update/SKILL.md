@@ -1,6 +1,6 @@
 ---
 name: readme-update
-description: コードの変更内容・新機能追加・依存変更に合わせてREADMEを更新する。インストール手順、使用例、設定項目、APIリファレンス、変更履歴の同期。ユーザーが「README更新して」「READMEに反映」「ドキュメント追従」「使い方追記」と言ったとき、新機能実装後・依存変更後にドキュメント同期が必要なとき、`/readme-update` と打ったときには必ずこのskillを使う。
+description: コード変更・新機能・依存変更に合わせてREADMEを更新する(インストール手順・使用例・設定項目の同期)。README更新の依頼で使う。
 ---
 
 # README Update

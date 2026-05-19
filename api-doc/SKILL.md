@@ -1,6 +1,6 @@
 ---
 name: api-doc
-description: REST/GraphQLエンドポイントの実装コードからOpenAPI(Swagger)仕様書のドラフトを生成する。パス、メソッド、リクエスト/レスポンスのスキーマ、認証、エラーレスポンスを抽出。ユーザーが「OpenAPI生成」「API仕様書」「Swagger書いて」「エンドポイント定義まとめて」と言ったとき、Express/FastAPI/Spring等のルート定義を共有してきたとき、`/api-doc` と打ったときには必ずこのskillを使う。
+description: REST/GraphQLのルート定義からOpenAPI仕様書のドラフトを生成する。API仕様書・Swagger・エンドポイント定義のまとめ依頼で使う。
 ---
 
 # API Documentation

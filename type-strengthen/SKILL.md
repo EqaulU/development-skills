@@ -1,6 +1,6 @@
 ---
 name: type-strengthen
-description: TypeScript型の強化(any/unknown排除、型ガード追加、Discriminated Union、ジェネリクス活用、satisfies演算子、Brand型、strict設定推奨)を行う。ユーザーが「型強化して」「any消して」「型安全にして」「型ガード書いて」「TypeScriptの型もっと厳しく」と言ったとき、`any` 多用や緩い型のコードを共有してきたとき、`/type-strengthen` と打ったときには必ずこのskillを使う。
+description: TypeScript型の強化(any排除、型ガード、Discriminated Union、ジェネリクス、satisfies、Brand型、strict設定)を行う。型安全化・any排除の依頼で使う。
 ---
 
 # Type Strengthen (TypeScript)

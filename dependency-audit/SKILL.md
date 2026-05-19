@@ -1,6 +1,6 @@
 ---
 name: dependency-audit
-description: 依存パッケージの脆弱性(CVE)、ライセンス、メンテナンス状況、サイズ影響をスキャンする。npm audit / pip-audit / bundler-audit / cargo-audit 等の結果解釈と対応優先度判定。ユーザーが「依存パッケージ確認」「脆弱性スキャン」「npm audit見て」「ライセンスチェック」「ライブラリ更新したい」と言ったとき、package.json/requirements.txt等を共有してきたとき、`/dependency-audit` と打ったときには必ずこのskillを使う。サプライチェーン攻撃の影響が大きいため、依存変更があるたびに発動を推奨。
+description: 依存パッケージのCVE・ライセンス・メンテ状況・サイズ影響をスキャンする。npm audit等の結果解釈、依存更新・ライセンスチェックの依頼で使う。
 ---
 
 # Dependency Audit

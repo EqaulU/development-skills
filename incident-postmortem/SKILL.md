@@ -1,6 +1,6 @@
 ---
 name: incident-postmortem
-description: 障害事後分析(ポストモーテム)ドキュメントを作成する。Blameless postmortem原則に基づき、タイムライン、影響範囲、根本原因(Five Whys)、検知・対応・復旧の振り返り、再発防止アクション、Lessons Learnedを構造化する。ユーザーが「ポストモーテム書いて」「障害報告書」「振り返り作成」「インシデントレポート」「事後分析」と言ったとき、障害発生後のタイミングで、`/incident-postmortem` と打ったときには必ずこのskillを使う。
+description: Blameless postmortem原則で障害事後分析を作成する。タイムライン・Five Whys・再発防止アクションを構造化。ポストモーテム/障害報告書/事後分析の依頼で使う。
 ---
 
 # Incident Postmortem

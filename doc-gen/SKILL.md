@@ -1,6 +1,6 @@
 ---
 name: doc-gen
-description: 関数・クラス・モジュールに対してJSDoc/TSDoc/Pythonのdocstring(Google/NumPy/Sphinxスタイル)/Javadoc/YARD等を自動生成する。パラメータ・戻り値・例外・使用例を含める。ユーザーが「docstring書いて」「JSDoc追加」「コメント生成」「ドキュメント化」「API説明書きたい」と言ったとき、コードを共有して説明追加を求めたとき、`/doc-gen` と打ったときには必ずこのskillを使う。
+description: 関数・クラスのインラインドキュメント(JSDoc/TSDoc/docstring/Javadoc/YARD/godoc/rustdoc)を生成する。docstring・JSDoc・コメント追加の依頼で使う。
 ---
 
 # Documentation Generation

@@ -1,6 +1,6 @@
 ---
 name: changelog-writer
-description: コミット履歴・PR・タグ範囲からCHANGELOG.mdを自動生成・更新する。Keep a Changelog形式、Conventional Commits解析、SemVer判定、ユーザー視点での記述変換。ユーザーが「CHANGELOG書いて」「リリースノート作成」「変更履歴まとめて」「v1.2.3のリリースノート」と言ったとき、リリース前のタイミングで、`/changelog-writer` と打ったときには必ずこのskillを使う。
+description: コミット履歴・PRからCHANGELOG.mdやリリースノートを生成する。Keep a Changelog形式、SemVer判定を含む。リリース前の変更履歴まとめ依頼で使う。
 ---
 
 # Changelog Writer

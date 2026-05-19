@@ -1,6 +1,6 @@
 ---
 name: commit-msg
-description: 変更内容(diff/ステージされた変更)からConventional Commits規約に沿ったコミットメッセージを生成する。type(feat/fix/docs/refactor/test/chore/perf/build/ci/revert)、scope、件名(50字以内・命令形)、本文(72字折り返し)、Breaking Changes/Issue参照。ユーザーが「コミットメッセージ作って」「コミット文考えて」「commit message」と言ったとき、git diff やステージ変更を共有してきたとき、`/commit-msg` と打ったときには必ずこのskillを使う。
+description: diff/ステージ変更からConventional Commits規約に沿ったコミットメッセージを生成する(type/scope/件名/本文/Breaking Changes/Issue参照)。コミット文作成の依頼で使う。
 ---
 
 # Commit Message
