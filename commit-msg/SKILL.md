@@ -133,3 +133,8 @@ User/Order/Product それぞれに散在していたバリデーション
 - **「なぜ」を body に。** diff を見れば「何が変わったか」は分かる。動機・経緯・代替案を選ばなかった理由を書く。
 - **複数のtypeが混ざる diff はコミット分割を提案。** `feat` と `refactor` を1コミットに入れない。
 - **既存のリポジトリ規約を優先。** Conventional Commits を使っていないリポジトリで強制しない。`git log --oneline -20` で慣習を確認。
+
+## 関連スキル
+
+- `changelog-writer` — リリース時に Conventional Commits をカテゴリ別の CHANGELOG にまとめる
+- `pr-description` — このコミット群を PR としてまとめるとき

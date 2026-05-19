@@ -97,3 +97,8 @@ git log --merges --pretty=format:"%h %s" v1.2.0..HEAD
 - **Breaking Changesは目立たせる。** 専用セクションかつ移行手順への導線を必ず付ける。
 - **SemVerを提案。** `feat!` あれば major、`feat` あれば minor、それ以外は patch を推奨。
 - **過去エントリは触らない。** 既存の `[1.2.0]` セクションを再編集しない。
+
+## 関連スキル
+
+- `commit-msg` — Conventional Commits の type 定義はこちらに詳しい
+- `readme-update` — リリースに合わせて README の使い方・要件も更新

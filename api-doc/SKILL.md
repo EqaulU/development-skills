@@ -1,6 +1,6 @@
 ---
 name: api-doc
-description: REST/GraphQLのルート定義からOpenAPI仕様書のドラフトを生成する。API仕様書・Swagger・エンドポイント定義のまとめ依頼で使う。
+description: RESTのルート定義からOpenAPI仕様書のドラフトを生成する。API仕様書・Swagger・エンドポイント定義のまとめ依頼で使う。
 ---
 
 # API Documentation

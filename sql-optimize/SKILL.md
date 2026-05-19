@@ -93,3 +93,8 @@ SELECT id, total, status, created_at FROM orders WHERE ...
 - **INDEX変更はオンライン適用を意識。** 大規模テーブルへの`CREATE INDEX`はテーブルロックの可能性。
 - **DBMS固有の機能を活用。** PostgreSQLのpartial index、MySQLのcovering indexなど、方言を意識。
 - **`SELECT *` を機械的に否定しない。** カラム全部使うなら可。ただしカラム追加時の影響に注意。
+
+## 関連スキル
+
+- `migration-plan` — INDEX 追加・スキーマ変更を本番で安全に適用するための計画
+- `perf-review` — クエリ起因以外のボトルネック(N+1の上流、アプリ層の処理等)を一緒に診る
