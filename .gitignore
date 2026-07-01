@@ -3,3 +3,5 @@
 *.swo
 .idea/
 .vscode/
+.claude/skills/*
+.claude/settings.local.json

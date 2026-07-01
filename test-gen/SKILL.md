@@ -70,5 +70,6 @@ describe('calculateDiscount', () => {
 ## 関連スキル
 
 - `edge-case-finder` — 網羅すべき境界値・異常系の洗い出し
+- `integration-test` — モックした依存(DB・外部API)を本物で通す結合テストが必要なとき
 - `e2e-scenario` — ユニットでなくシナリオレベルのテストが必要なとき
 - `refactor` — テスト不足のコードをリファクタする前に characterization test を生成

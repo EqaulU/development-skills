@@ -1,4 +1,4 @@
-# System Development Skills (29個)
+# System Development Skills (41個)
 
 システム開発を支援する skill テンプレート集。
 それぞれの skill は `<skill-name>/SKILL.md` に格納されている。
@@ -39,6 +39,27 @@ cp -r commit-msg ~/.claude/skills/
 
 ## 全 skill 一覧
 
+### 🧭 ワークフロー / オーケストレーション
+| skill | 概要 |
+| :--- | :--- |
+| `dev-workflow` | 要件定義→設計→製造→レビュー→単体/結合/総合テストを各スキルを呼びゲート付きで駆動 |
+
+### 📊 見積もり・計画系
+| skill | 概要 |
+| :--- | :--- |
+| `effort-estimate` | 開発工数をストーリーポイント/三点見積もり(PERT)/類推/ボトムアップ等で見積もり、前提・レンジ・バッファを明示 |
+| `cost-estimate` | 工数・数量から商用の見積書(明細・単価・人月・値引き・消費税・前提条件・スコープ外)を作成 |
+
+### 🏗️ 要件・設計系
+| skill | 概要 |
+| :--- | :--- |
+| `requirements` | 要望を検証可能な要件・ユーザーストーリー・受入基準・優先度(MoSCoW)に整理 |
+| `design-doc` | 実装前の設計書/RFC(背景・目的・非目的・代替案・段階移行・リスク) |
+| `adr` | 設計判断1件をADRとして記録(文脈・決定・選択肢・結果) |
+| `api-design` | 実装前のAPI契約設計(リソース・命名・エラーモデル・バージョニング) |
+| `data-model` | 実装前のデータモデル設計(ER・正規化・キー・インデックス戦略) |
+| `threat-model` | 設計時のセキュリティ脅威分析(STRIDE・攻撃面・緩和策) |
+
 ### 🔍 コードレビュー系
 | skill | 概要 |
 | :--- | :--- |
@@ -53,6 +74,7 @@ cp -r commit-msg ~/.claude/skills/
 | skill | 概要 |
 | :--- | :--- |
 | `test-gen` | 関数・クラスのユニットテスト自動生成 |
+| `integration-test` | コンポーネント境界の結合テスト(API↔DB、DAO、外部APIスタブ) |
 | `e2e-scenario` | ユーザーストーリーから E2E シナリオ作成(Gherkin) |
 | `edge-case-finder` | 境界値・異常系・例外パターンを系統的に列挙 |
 
@@ -89,6 +111,8 @@ cp -r commit-msg ~/.claude/skills/
 | `task-breakdown` | 大きなタスクをサブタスクに分解(INVEST 原則) |
 | `incident-postmortem` | 障害事後分析(Blameless Postmortem) |
 | `git-history` | git 履歴整理(rebase/squash/cherry-pick) |
+| `work-log` | 作業ごとの記録(やったこと・判断・詰まり・次アクション)を Markdown で残す |
+| `backlog-report` | work-log の当日分を要約し Backlog(Nulab)のドキュメント/Wiki に API 登録 |
 
 ### 🌐 国際化・運用
 | skill | 概要 |
@@ -120,6 +144,15 @@ cp -r commit-msg ~/.claude/skills/
 SKILL.md 本体は常にロードされるが、references/ は Claude が必要と判断したときだけ読み込む。
 
 例:
+- `dev-workflow/references/playbook.md` — フェーズ別ゲート・規模別調整・戻り方
+- `effort-estimate/references/methods.md` — 見積もり手法カタログ・PERT計算・アンチパターン
+- `cost-estimate/references/template.md` — 見積書フルテンプレート・端数/税/値引きの扱い
+- `requirements/references/checklist.md` — NFRカテゴリ・質問バンク・受入基準の書き方
+- `design-doc/references/template.md` — 設計書フルテンプレート
+- `api-design/references/conventions.md` — HTTP ステータス/ページング/エラー規約
+- `data-model/references/patterns.md` — 正規形・モデリングパターン・アンチパターン
+- `threat-model/references/stride.md` — STRIDE 脅威×緩和策カタログ
+- `integration-test/references/harness-setup.md` — テストDB・スタブ・FW別ハーネス設定
 - `migration-plan/references/expand-migrate-contract.md` — フェーズ別 SQL 例
 - `migration-plan/references/dbms-online-ddl.md` — PostgreSQL/MySQL のオンライン DDL
 - `sql-optimize/references/explain-cheatsheet.md` — EXPLAIN 解読チートシート
@@ -129,6 +162,7 @@ SKILL.md 本体は常にロードされるが、references/ は Claude が必要
 - `rollback-guide/references/full-procedure.md` — フル手順テンプレート
 - `api-doc/references/openapi-example.md` — OpenAPI 出力例
 - `code-review/references/project-rules.md` — プロジェクト固有ルール雛形
+- `backlog-report/references/backlog-api.md` — Backlog Document/Wiki API のエンドポイント・curl/PowerShell・エラー対処
 
 ## カスタマイズ指針
 
@@ -143,7 +177,18 @@ SKILL.md 本体は常にロードされるが、references/ は Claude が必要
 
 ## skill 間の連携例
 
+- `dev-workflow` → 全フェーズの司令塔。下記の各連携を要件→設計→実装→レビュー→テストの順に駆動
+- `requirements` → `design-doc`(どう作るか)へ。受入基準は `e2e-scenario` の元ネタ、ストーリーは `task-breakdown` で分解
+- `design-doc` → 個別の重要判断を `adr` で記録 → `task-breakdown` で実装分解
+- `design-doc` → `api-design` / `data-model` で API 契約・スキーマを具体化 → 実装
+- `api-design` → 実装後に `api-doc` で OpenAPI 化
+- `data-model` → `migration-plan` で安全に反映 → 運用後 `sql-optimize` で INDEX 見直し
+- `threat-model` → `security-check`(コード)/ `pii-check` / `log-design` でドリルダウン
+- `task-breakdown` → 分解したサブタスクを `effort-estimate` で工数見積もり → `cost-estimate` で金額の見積書に換算
+- `requirements` → `effort-estimate`(前提が固まるほど見積もり精度が上がる)
 - `task-breakdown` → 分解したサブタスクを `pr-description` で PR 化
+- `test-gen`(ユニット)→ `integration-test`(結合)→ `e2e-scenario`(E2E)でテストピラミッドを構成
+- `data-model` / `api-design` の設計が噛み合うかを `integration-test` で裏取り
 - `refactor` → 既存テスト不足なら `test-gen` で characterization test を先に
 - `code-review` の指摘 → `security-check` / `perf-review` / `naming-review` / `a11y-review` / `pii-check` でドリルダウン
 - `commit-msg` → リリース時に `changelog-writer` で集約
@@ -152,6 +197,8 @@ SKILL.md 本体は常にロードされるが、references/ は Claude が必要
 - `pii-check` ↔ `log-design` — ログへの PII 漏洩を相互チェック
 - `i18n-check` ↔ `a11y-review` — `lang`、文字方向、コントラストは両方の関心
 - `git-history` → `commit-msg` で再生成、`pr-description` で再構成
+- `work-log` → 日々の作業の生ログ。重要判断は `adr`、リリース変更は `changelog-writer`、障害対応は `incident-postmortem` に昇華
+- `work-log` → `backlog-report` で当日分を要約し Backlog のドキュメント/Wiki に登録(投稿前に `pii-check` / `env-check`)
 
 ## 次のステップ
 
